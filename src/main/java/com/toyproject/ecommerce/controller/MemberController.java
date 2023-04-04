@@ -1,7 +1,7 @@
 package com.toyproject.ecommerce.controller;
 
-import com.toyproject.ecommerce.controller.DTO.LoginForm;
-import com.toyproject.ecommerce.controller.DTO.MemberForm;
+import com.toyproject.ecommerce.controller.dto.LoginForm;
+import com.toyproject.ecommerce.controller.dto.MemberForm;
 import com.toyproject.ecommerce.domain.Address;
 import com.toyproject.ecommerce.domain.Member;
 import com.toyproject.ecommerce.service.MemberService;

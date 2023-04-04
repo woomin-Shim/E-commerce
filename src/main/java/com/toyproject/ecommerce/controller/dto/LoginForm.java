@@ -1,4 +1,4 @@
-package com.toyproject.ecommerce.controller.DTO;
+package com.toyproject.ecommerce.controller.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

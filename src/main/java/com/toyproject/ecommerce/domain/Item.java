@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Item {
     private int stockQuantity;
 
     @OneToMany(mappedBy = "item")
-    private List<ItemImage> itemImageList;
+    private List<ItemImage> itemImageList = new ArrayList<>();
 
     //== 연관 관계 편의 메소드 ==//
     public void addItemImage(ItemImage itemImage) {
@@ -37,6 +38,12 @@ public class Item {
         this.description = description;
         this.price = price;
         this.stockQuantity = stockQuantity;
+    }
+
+    public static Item createItem(String name, String description, int price, int stockQuantity) {
+        Item item = new Item(name, description, price, stockQuantity);
+
+        return item;
     }
 
 }
