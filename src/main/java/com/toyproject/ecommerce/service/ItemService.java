@@ -8,6 +8,7 @@ import com.toyproject.ecommerce.service.dto.ItemServiceDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,15 +20,15 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemImageRepository itemImageRepository;
-    private final FileStore fileStore;
+    private final FileHandler filehandler;
 
-    public Long saveItem(ItemServiceDTO itemServiceDTO) throws IOException {
+    public Long saveItem(ItemServiceDTO itemServiceDTO, List<MultipartFile> multipartFileList) throws IOException {
         Item item = Item.createItem(itemServiceDTO.getName(),
                 itemServiceDTO.getDescription(),
                 itemServiceDTO.getPrice(),
                 itemServiceDTO.getStockQuantity());
 
-        List<ItemImage> itemImages = fileStore.storeImages(itemServiceDTO.getItemImages());
+        List<ItemImage> itemImages = filehandler.storeImages(multipartFileList);
 
 
         for (ItemImage itemImage : itemImages) {
