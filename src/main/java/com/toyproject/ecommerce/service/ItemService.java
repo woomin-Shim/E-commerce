@@ -37,4 +37,8 @@ public class ItemService {
 
         return itemRepository.save(item).getId();
     }
+
+    public List<Item> findItems() {
+        return itemRepository.findAll();
+    }
 }
