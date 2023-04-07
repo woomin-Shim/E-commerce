@@ -2,7 +2,9 @@ package com.toyproject.ecommerce.controller;
 
 
 import com.toyproject.ecommerce.domain.Item;
+import com.toyproject.ecommerce.domain.ItemImage;
 import com.toyproject.ecommerce.service.FileHandler;
+import com.toyproject.ecommerce.service.ItemImageService;
 import com.toyproject.ecommerce.service.ItemService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +27,15 @@ import java.util.List;
 public class HomeController {
 
     private final ItemService itemService;
+    private final ItemImageService itemImageService;
     private final FileHandler fileHandler;
 
     @GetMapping("/")
     public String home(Model model) {
         List<Item> items = itemService.findItems();
+//        List<ItemImage> itemImages = itemImageService.findAllByDeleteYN("N");
         model.addAttribute("items", items);
+//        model.addAttribute("itemImages", itemImages);
         log.info("home controller");
         return "home";
     }

@@ -1,11 +1,14 @@
 package com.toyproject.ecommerce.controller;
 
 import com.toyproject.ecommerce.controller.dto.ItemForm;
+import com.toyproject.ecommerce.controller.dto.ItemImageDto;
+import com.toyproject.ecommerce.domain.Item;
+import com.toyproject.ecommerce.domain.ItemImage;
+import com.toyproject.ecommerce.service.ItemImageService;
 import com.toyproject.ecommerce.service.ItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -21,6 +25,7 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemImageService itemImageService;
 
     @GetMapping("/items/new")
     public String createItemForm(Model model) {
@@ -35,7 +40,7 @@ public class ItemController {
 
     @PostMapping("/items/new")
     public String createItem(@Valid @ModelAttribute ItemForm itemForm, BindingResult bindingResult, Model model,
-                            @RequestPart(name = "itemImages") List<MultipartFile> multipartFiles
+                             @RequestPart(name = "itemImages") List<MultipartFile> multipartFiles
     ) throws IOException {
 
         if (bindingResult.hasErrors()) return "item/itemForm";
@@ -51,4 +56,49 @@ public class ItemController {
         return "redirect:/userHome";
     }
 
+    @GetMapping("/items/{itemId}/edit")
+    public String updateItemForm(@PathVariable(name = "itemId") Long itemId, Model model) {
+
+        Item findItem = itemService.findItem(itemId);
+        List<ItemImage> itemImageList = itemImageService.findItemDetail(itemId, "N");
+
+        //엔티티 -> DTO로 변환
+        List<ItemImageDto> itemImageListDto = itemImageList.stream()
+                .map(ItemImageDto::new)
+                .collect(Collectors.toList());
+
+
+        ItemForm itemForm = new ItemForm(
+                findItem.getId(),
+                findItem.getName(),
+                findItem.getPrice(),
+                findItem.getStockQuantity(),
+                findItem.getDescription(),
+                itemImageListDto
+        );
+
+        model.addAttribute("itemForm", itemForm);
+
+        return "item/updateItemForm";
+    }
+
+    @PostMapping("/items/{itemId}/edit")
+    public String updateItem(@ModelAttribute ItemForm itemForm) throws IOException {
+
+        //상품 정보 수정
+        itemService.updateItem(itemForm.toServiceDTO());
+
+        return "redirect:/userHome";
+    }
+
+    /**
+     * 아이템 이미지 삭제 처리
+     */
+    @PostMapping("item/delete")
+    public String deleteItemImage(@RequestParam("itemImageId") Long itemImageId, @RequestParam("itemId") Long itemId) {
+
+        itemImageService.delete(itemImageId);
+
+        return "redirect:/items/ " + itemId + "/edit";
+    }
 }

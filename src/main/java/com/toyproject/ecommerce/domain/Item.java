@@ -41,10 +41,16 @@ public class Item {
     }
 
     public static Item createItem(String name, String description, int price, int stockQuantity) {
-        Item item = new Item(name, description, price, stockQuantity);
-
-        return item;
+        return new Item(name, description, price, stockQuantity);
     }
+
+    public void updateItem(String name, String description, int price, int stockQuantity) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
 
 
 }
