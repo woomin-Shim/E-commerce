@@ -23,6 +23,7 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemImageRepository itemImageRepository;
     private final FileHandler filehandler;
+    private final ItemImageService itemImageService;
 
     //상품 정보 저장
     public Long saveItem(ItemServiceDTO itemServiceDTO, List<MultipartFile> multipartFileList) throws IOException {
@@ -41,8 +42,8 @@ public class ItemService {
         return itemRepository.save(item).getId();
     }
 
-    //상품 정보 업데이트
-    public void updateItem(ItemServiceDTO itemServiceDTO) throws IOException {
+    //상품 정보 업데이트 (Dirty Checking, 변경감지)
+    public void updateItem(ItemServiceDTO itemServiceDTO,  List<MultipartFile> multipartFileList) throws IOException {
 
         Item findItem = itemRepository.findById(itemServiceDTO.getId()).orElse(null);  //DB에서 찾아옴 -> 영속 상태
 
@@ -50,10 +51,12 @@ public class ItemService {
 
         log.info("======itemServiceDTO.getName={}", itemServiceDTO.getName());
 
-        //Dirty Checking
         findItem.updateItem(itemServiceDTO.getName(), itemServiceDTO.getDescription(), itemServiceDTO.getPrice(), itemServiceDTO.getStockQuantity());
 
         log.info("=====findItem={}", findItem.getName());
+
+        itemImageService.addItemImage(multipartFileList, findItem);
+
     }
 
 

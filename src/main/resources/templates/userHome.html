@@ -29,7 +29,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" th:href="@{/items/new}">상품 등록</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">상품 관리</a></li>
+                        <li><a class="dropdown-item" th:href="@{/items}">상품 관리</a></li>
                     </ul>
                 </li>
             </ul>
@@ -94,7 +94,9 @@
 
             <div class="col mb-5" th:each="item : ${items}">
                 <div class="card h-100">
+
                     <!-- Product image-->
+<!--                    <span th:each="itemImage : ${item.getItemImageList()}" th:if="${movie.movieCode == poster.movieCode}">-->
                     <img class="card-img-top" th:src="|/images/${item.getItemImageList().get(0).getStoreName()}|" alt="..." />
                     <!-- Product details-->
                     <div class="card-body p-4">

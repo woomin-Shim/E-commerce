@@ -32,11 +32,6 @@ public class ItemImage {
         this.deleteYN = "N";
     }
 
-    public void updateItemImage(String originalName, String storeName) {
-        this.originalName = originalName;
-        this.storeName = storeName;
-    }
-
     public void changeItem(Item item) {
         this.item = item;
     }

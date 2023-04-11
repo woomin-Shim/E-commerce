@@ -34,6 +34,8 @@ public class HomeController {
     public String home(Model model) {
         List<Item> items = itemService.findItems();
 //        List<ItemImage> itemImages = itemImageService.findAllByDeleteYN("N");
+        //queryDSL TODO
+
         model.addAttribute("items", items);
 //        model.addAttribute("itemImages", itemImages);
         log.info("home controller");
@@ -43,6 +45,7 @@ public class HomeController {
     @GetMapping("/userHome")
     public String userHome(Model model) {
         List<Item> items = itemService.findItems();
+
         model.addAttribute("items", items);
         log.info("userHome Controller");
         return "userHome";
@@ -54,8 +57,4 @@ public class HomeController {
         return new UrlResource("file:" + fileHandler.getFullPath(filename));
     }
 
-//    @RequestMapping("/main")  //로그인된 사용자 메인 화면
-//    public String userHome() {
-//
-//    }
 }

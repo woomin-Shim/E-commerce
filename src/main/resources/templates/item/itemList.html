@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:replace="~{layout/base :: layout(~{::section})}"
+      layout:decorate="~{layout/base}">
+
+<head>
+    <meta charset="utf-8">
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+            var error = [[${errorMessage}]];
+            if(error != null){
+                alert(error);
+            }
+        </script>
+    </th:block>
+</head>
+
+<body>
+
+<div layout:fragment="content" class="container">
+    <div  class="py-5 text-center">
+        <h2>등록된 상품 목록</h2>
+    </div>
+    <br>
+
+
+    <div>
+        <table th:name="dd" class="table table-striped">
+            <thead>
+            <tr>
+<!--                <th>#</th>-->
+                <th>상품명</th>
+                <th>가격</th>
+                <th>재고수량</th>
+                <th>상품 설명</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${itemList}">
+                <tg th:hidden th:field="${item.id}"></tg>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.price}"></td>
+                <td th:text="${item.stockQuantity}"></td>
+                <td th:text="${item.description}"></td>
+                <td>
+                    <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}"
+                       class="btn btn-primary" role="button">수정</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <br>
+    <br><br><br><br><br><br><br><br>
+    <br>
+</div> <!-- /container -->
+</body>
+</html>
