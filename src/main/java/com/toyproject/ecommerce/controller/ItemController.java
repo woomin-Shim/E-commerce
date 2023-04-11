@@ -91,11 +91,13 @@ public class ItemController {
     }
 
     @PostMapping("/items/{itemId}/edit")
-    public String updateItem(@ModelAttribute ItemForm itemForm, @RequestPart(name = "itemImages") List<MultipartFile> multipartFiles,
-                             Model model) throws IOException {
+    public String updateItem(@ModelAttribute ItemForm itemForm, Model model,
+                             @RequestPart(name = "itemImages") List<MultipartFile> multipartFiles) throws IOException {
+
+        List<ItemImage> findItemImages = itemImageService.findItemImageDetail(itemForm.getItemId(), "N");
 
         //상품 이미지를 등록안하면
-        if (multipartFiles.get(0).isEmpty()) {
+        if (findItemImages.isEmpty() && multipartFiles.get(0).isEmpty()) {
             model.addAttribute("errorMessage", "상품 사진을 등록해주세요!");
             return "item/itemForm";
         }

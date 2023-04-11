@@ -55,8 +55,10 @@ public class ItemService {
 
         log.info("=====findItem={}", findItem.getName());
 
-        itemImageService.addItemImage(multipartFileList, findItem);
-
+        //상품 이미지를 수정(삭제, 추가) 하지 않으면 실행 x
+        if(!multipartFileList.get(0).isEmpty()) {
+            itemImageService.addItemImage(multipartFileList, findItem);
+        }
     }
 
 
