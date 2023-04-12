@@ -57,7 +57,7 @@ public class ItemController {
 
         itemService.saveItem(itemForm.toServiceDTO(), multipartFiles);
 
-        return "redirect:/userHome";
+        return "redirect:/";
     }
 
 
@@ -105,7 +105,35 @@ public class ItemController {
         //상품 정보 수정
         itemService.updateItem(itemForm.toServiceDTO(), multipartFiles);
 
-        return "redirect:/userHome";
+        return "redirect:/";
+    }
+
+    /**
+     * 상품 상세 조회
+     */
+    @GetMapping("items/{itemId}")
+    public String itemView(@PathVariable(name = "itemId") Long itemId, Model model) {
+        Item item = itemService.findItem(itemId);
+        List<ItemImage> itemImageList = itemImageService.findItemImageDetail(itemId, "N");
+
+        //엔티티 -> DTO
+        List<ItemImageDto> itemImageDtoList = itemImageList.stream()
+                .map(ItemImageDto::new)
+                .collect(Collectors.toList());
+
+        ItemForm itemform = new ItemForm(
+                item.getId(),
+                item.getName(),
+                item.getPrice(),
+                item.getStockQuantity(),
+                item.getDescription(),
+                itemImageDtoList
+        );
+
+        model.addAttribute("item", itemform);
+
+        return "item/itemView";
+
     }
 
     /**

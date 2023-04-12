@@ -1,11 +1,17 @@
 package com.toyproject.ecommerce.controller;
 
 
+import com.toyproject.ecommerce.controller.dto.ItemDto;
+import com.toyproject.ecommerce.controller.dto.ItemForm;
+import com.toyproject.ecommerce.controller.dto.ItemImageDto;
+import com.toyproject.ecommerce.controller.dto.ItemListDto;
 import com.toyproject.ecommerce.domain.Item;
 import com.toyproject.ecommerce.domain.ItemImage;
 import com.toyproject.ecommerce.service.FileHandler;
 import com.toyproject.ecommerce.service.ItemImageService;
 import com.toyproject.ecommerce.service.ItemService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -31,25 +38,40 @@ public class HomeController {
     private final FileHandler fileHandler;
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model, HttpServletRequest request) {
         List<Item> items = itemService.findItems();
 //        List<ItemImage> itemImages = itemImageService.findAllByDeleteYN("N");
         //queryDSL TODO
 
+//        //엔티티 -> DTO
+//        List<ItemListDto> itemListDto = items.stream()
+//                .map(ItemListDto::new)
+//                .collect(Collectors.toList());
         model.addAttribute("items", items);
-//        model.addAttribute("itemImages", itemImages);
-        log.info("home controller");
-        return "home";
-    }
 
-    @GetMapping("/userHome")
-    public String userHome(Model model) {
-        List<Item> items = itemService.findItems();
+        HttpSession session = request.getSession(false);
 
-        model.addAttribute("items", items);
+        //비로그인 사용자
+        if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
+            log.info("home controller");
+            return "home";
+        }
+
+        //로그인된 사용자
         log.info("userHome Controller");
         return "userHome";
+
+
     }
+
+//    @GetMapping("/userHome")
+//    public String userHome(Model model) {
+//        List<Item> items = itemService.findItems();
+//
+//        model.addAttribute("items", items);
+//        log.info("userHome Controller");
+//        return "userHome";
+//    }
 
     @ResponseBody
     @GetMapping("/images/{filename}")

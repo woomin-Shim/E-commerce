@@ -29,7 +29,7 @@ public class ItemForm {
     private int stockQuantity;  //재고 수량
     private String description;  //상품 설명
 
-    //상품 수정, 장바구니에 사용
+    //상품 수정, 장바구니,상품 상세에 사용
     private List<ItemImageDto> itemImageListDto = new ArrayList<>();
 
     public ItemServiceDTO toServiceDTO() {

@@ -111,7 +111,7 @@ public class MemberController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);  //세션에 회원 정보 보관
 
         //판매자, 구매자 역할 뷰 나누기 TODO
-        return "redirect:/userHome";
+        return "redirect:/";
     }
 
     /**
