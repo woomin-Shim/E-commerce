@@ -18,18 +18,31 @@
 
 
 <script th:inline="javascript">
+    <!-- 처음 웹페이지 로딩시 호출 -->
     $(document).ready(function(){
 
         calculateTotalPrice();
 
-        $("#count").change( function(){
+        <!-- count 값이 변경될때마다 호출 -->
+        $("#count").change(function(){
             calculateTotalPrice();
         });
     });
 
+    <!-- 총 상품 금액 계산 -->
     function calculateTotalPrice(){
+
+        var quantity = $("#stockQuantity").val()*1;
         var count = $("#count").val();
         var price = $("#price").val();
+
+
+        <!-- 재고 부족 -->
+        if (quantity < count) {
+            alert("샹품 재고가 부족합니다. 재고:" + quantity + "개")
+            return;
+        }
+
         var totalPrice = price*count;
         $("#totalPrice").html(totalPrice + '원');
     }
@@ -71,6 +84,7 @@
 
                 <div class="input-group fs-5 mb-5">
                     <div class="input-group-prepend">
+                        <input type="text" th:value="${item.stockQuantity}" id="stockQuantity" name="stockQuantity">
                         <span class="input-group-text">주문 수량</span>
                     </div>
                     <input class="form-control text-center me-3" id="count" name="count" type="number" value="1" style=" max-width: 5rem" />
@@ -93,7 +107,7 @@
                     &nbsp
                     <button class="btn btn-outline-dark flex-shrink-0" type="button">
                         <i class="bi-cart-fill me-1"></i>
-                        Add to cart
+                        장바구니 담기
                     </button>
                 </div>
             </div>

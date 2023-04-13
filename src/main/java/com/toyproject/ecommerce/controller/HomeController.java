@@ -1,12 +1,8 @@
 package com.toyproject.ecommerce.controller;
 
 
-import com.toyproject.ecommerce.controller.dto.ItemDto;
-import com.toyproject.ecommerce.controller.dto.ItemForm;
-import com.toyproject.ecommerce.controller.dto.ItemImageDto;
-import com.toyproject.ecommerce.controller.dto.ItemListDto;
 import com.toyproject.ecommerce.domain.Item;
-import com.toyproject.ecommerce.domain.ItemImage;
+import com.toyproject.ecommerce.domain.Member;
 import com.toyproject.ecommerce.service.FileHandler;
 import com.toyproject.ecommerce.service.ItemImageService;
 import com.toyproject.ecommerce.service.ItemService;
@@ -21,12 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.MalformedURLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
