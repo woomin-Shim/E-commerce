@@ -48,6 +48,25 @@
         var totalPrice = price*count;
         $("#totalPrice").html(totalPrice + '원');
     }
+
+    <!-- 장바구니 담기 -->
+    function addCart() {
+
+        var count = $("#count").val();
+        var itemId = $("#id").val();
+        var sendData = {
+            count,itemId
+        };
+
+       $.ajax({
+           url: "/cart",
+           data: sendData,
+           type: 'POST',
+           
+
+       })
+
+    }
 </script>
 
 <body>
@@ -77,6 +96,7 @@
             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="|/images/${item.getItemImageListDto().get(0).getStoreName()}|" alt="..." /></div>
             <div class="col-md-6">
                 <h1 class="display-5 fw-bolder" th:text="${item.getName()}">Shop item template</h1>
+                <input type="hidden" th:value="${item.itemId}" id="id" name="id">
                 <div class="fs-5 mb-5">
                     <input type="hidden" th:value="${item.price}" id="price" name="price">
                     <span class="text-decoration-none" th:text="${item.getPrice()}"></span>원

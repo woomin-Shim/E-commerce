@@ -62,7 +62,7 @@
                     <div class="custom-file img-div">
                          <span th:text="${itemImage.originalName}">파일이름1.png</span>
                         <span>
-                            <button th:fileId="${itemImage.id}" th:onclick="itemImgageDelete(this.getAttribute('fileId'))"
+                            <button th:fileId="${itemImage.id}" th:onclick="itemImageDelete(this.getAttribute('fileId'))"
                              type="button" class="btn btn-outline-danger">삭제</button>
                         </span>
                     </div>
@@ -90,7 +90,7 @@
 </html>
 
 <script>
-    function itemImgageDelete(fileId){
+    function itemImageDelete(fileId){
         if (confirm("정말로 삭제하시겠습니까?")) {
             //배열생성
             const form = document.createElement('form');

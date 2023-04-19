@@ -8,10 +8,14 @@ import com.toyproject.ecommerce.repository.CartItemRepository;
 import com.toyproject.ecommerce.repository.CartRepository;
 import com.toyproject.ecommerce.repository.ItemRepository;
 import com.toyproject.ecommerce.repository.MemberRepository;
+import com.toyproject.ecommerce.repository.query.CartQueryDto;
+import com.toyproject.ecommerce.repository.query.CartQueryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CartService {
 
     private final CartRepository cartRepository;
+    private final CartQueryRepository cartQueryRepository;
     private final CartItemRepository cartItemRepository;
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
@@ -63,6 +68,16 @@ public class CartService {
         cartItem.changeCount(count);
         return cartItem.getId();
 
+    }
+
+    /**
+     * 장바구니 조회
+     */
+    @Transactional(readOnly = true)
+    public List<CartQueryDto> findCartItems(Long memberId) {
+        Cart cart = cartRepository.findByMemberId(memberId).orElse(null);
+        List<CartQueryDto> cartQueryDtos = cartQueryRepository.findCartQueryDtos(cart.getId());
+        return cartQueryDtos;
     }
 
 }
