@@ -33,17 +33,42 @@
     });
 
     <!-- 장바구니 상품 금액 계산 -->
-    function calculateTotalPrice(){
+    function calculateTotalPrice(itemId){
 
-        var count = $("#count").val();
-        var price = $("#price").val();
+        var count = $("#count_" + itemId).val();
+        var price = $("#price_" + itemId).val();
 
         var totalPrice = price*count;
-        $("#result").html(totalPrice + '원');
+        $("#resultPrice_" + itemId).html(totalPrice + '원');
     }
 
-    function changeCount(id) {
-        calculateTotalPrice();
+    function changeCount(itemId) {
+        calculateTotalPrice(itemId);
+    }
+
+    <!-- 장바구니 상품 삭제 -->
+    function deleteCartItem(itemId) {
+
+        var cartItemForm = {
+            cartItemId : itemId
+        };
+
+        $.ajax({
+            url: "/cart",
+            type: 'DELETE',
+            data: cartItemForm,
+
+            <!-- 성공시 -->
+            success: function (result) {
+                alert("선탟하신 상품이 삭제되었습니다.");
+                location.href="/cart"
+            },
+            <!-- 실패시 -->
+            error: function (jqXHR) {
+                alert(jqXHR.responseText);
+                location.href = "/cart";
+            }
+        })
     }
 
 </script>
@@ -88,15 +113,15 @@
                             </div>
 
                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                <input id="count" name="count" th:value="${cartItem.count}" min="0" value="1" type="number"
+                                <input th:id="'count_' + ${cartItem.cartItemId}" name="count" th:value="${cartItem.count}" min="0" value="1" type="number"
                                        th:cartItemId="${cartItem.cartItemId}"
                                        onchange="changeCount(this.getAttribute('cartItemId'))"
                                        class="form-control form-control-sm" />
                             </div>
 
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <input type="hidden" th:value="${cartItem.price}" id="price" name="price">
-                                <h5 class="mb-0" id="result" th:text="${cartItem.price}*${cartItem.count}+'원'">$499.00</h5>
+                                <input type="hidden" th:value="${cartItem.price}" th:id="'price_' + ${cartItem.cartItemId}" name="price">
+                                <h5 class="mb-0" th:id=" 'resultPrice_' + ${cartItem.cartItemId}"  th:text="${cartItem.price}*${cartItem.count}+'원'">$499.00</h5>
                             </div>
                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
 <!--                                <a th:href="@{cart/delete/{id} (id=${cartItem.cartItemId})}" class="text-danger">삭제<i class="fas fa-trash fa-lg"></i></a>-->

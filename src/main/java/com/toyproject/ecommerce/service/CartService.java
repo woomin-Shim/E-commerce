@@ -34,6 +34,11 @@ public class CartService {
         return cartRepository.findByMemberId(memberId).orElse(null);
     }
 
+    @Transactional(readOnly = true)
+    public CartItem findCartItem(Long cartItemId) {
+        return cartItemRepository.findById(cartItemId).orElse(null);
+    }
+
     /**
      * 장바구니 담기(추가)
      */
@@ -53,7 +58,6 @@ public class CartService {
 
         //장바구니안에 장바구니 상품 조회
         CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId()).orElse(null);
-
 
 
         //장바구니 상품이 없으면 생성
@@ -78,6 +82,14 @@ public class CartService {
         Cart cart = cartRepository.findByMemberId(memberId).orElse(null);
         List<CartQueryDto> cartQueryDtos = cartQueryRepository.findCartQueryDtos(cart.getId());
         return cartQueryDtos;
+    }
+
+    /**
+     * 장바구니 삭제
+     */
+    public void deleteCartItem(Long itemId) {
+        CartItem findCartItem = cartItemRepository.findById(itemId).orElse(null);
+        cartItemRepository.delete(findCartItem);
     }
 
 }

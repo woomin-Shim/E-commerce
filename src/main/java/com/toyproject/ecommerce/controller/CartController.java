@@ -1,6 +1,8 @@
 package com.toyproject.ecommerce.controller;
 
 import com.toyproject.ecommerce.controller.dto.CartForm;
+import com.toyproject.ecommerce.controller.dto.Form;
+import com.toyproject.ecommerce.domain.Item;
 import com.toyproject.ecommerce.domain.Member;
 import com.toyproject.ecommerce.repository.query.CartQueryDto;
 import com.toyproject.ecommerce.service.CartService;
@@ -13,9 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +27,9 @@ public class CartController {
     private final CartService cartService;
     private final ItemImageService itemImageService;
 
-    //장바구니 조회
+    /**
+     *  장바구니 조회
+     */
     @GetMapping("/cart")
     public String cartView(Model model, HttpServletRequest request) {
 
@@ -39,7 +41,9 @@ public class CartController {
         return "cart/cartView";
     }
 
-    //장바구니 담기
+    /**
+     *  장바구니 담기
+     */
     @PostMapping("/cart")
     public ResponseEntity<String> addCart(@ModelAttribute CartForm cartForm, HttpServletRequest request) {
 
@@ -53,10 +57,25 @@ public class CartController {
         return ResponseEntity.ok("success");
     }
 
+    /**
+     * 장바구니 삭제
+     */
+    @DeleteMapping("/cart")
+    public ResponseEntity<String> deleteCartItem(@RequestParam Long cartItemId) {
+
+        log.info("itemId={}", cartItemId);
+
+        if (cartService.findCartItem(cartItemId) == null) {
+            return new ResponseEntity<String>("다시 시도해주세요.", HttpStatus.NOT_FOUND);
+        }
+
+        cartService.deleteCartItem(cartItemId);
+        return ResponseEntity.ok("success");
+    }
+
 
     private Member getMember(HttpServletRequest request) {
 
-        //세션에 저장되어있는 회원정보 가져오기
         HttpSession session = request.getSession(false);
 
         //비로그인 사용자
@@ -64,6 +83,7 @@ public class CartController {
             return null;
         }
 
+        //세션에 저장되어있는 회원정보 가져오기
         Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
         return member;
     }
