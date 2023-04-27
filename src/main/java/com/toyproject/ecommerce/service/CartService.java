@@ -10,6 +10,7 @@ import com.toyproject.ecommerce.repository.ItemRepository;
 import com.toyproject.ecommerce.repository.MemberRepository;
 import com.toyproject.ecommerce.repository.query.CartQueryDto;
 import com.toyproject.ecommerce.repository.query.CartQueryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -46,19 +47,18 @@ public class CartService {
 
         //엔티티 조회
         Member member = memberRepository.findById(memberId).get();
-        Cart cart = cartRepository.findByMemberId(memberId).orElse(null);
+        Cart cart = cartRepository.findByMemberId(memberId).orElseGet(() -> null);
         Item item = itemRepository.findById(itemId).get();
 
         //장바구니 없으면 생성
         if (cart == null) {
-            log.info("장바구니 신규 생성");
+            log.info("장바구니 신규 생성 - memberId={}", memberId);
             cart = Cart.createCart(member);
             cartRepository.save(cart);
         }
 
         //장바구니안에 장바구니 상품 조회
         CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId()).orElse(null);
-
 
         //장바구니 상품이 없으면 생성
         if (cartItem == null) {
@@ -79,7 +79,7 @@ public class CartService {
      */
     @Transactional(readOnly = true)
     public List<CartQueryDto> findCartItems(Long memberId) {
-        Cart cart = cartRepository.findByMemberId(memberId).orElse(null);
+        Cart cart = cartRepository.findByMemberId(memberId).orElseThrow(EntityNotFoundException::new);  // () -> new EntityNotFoundException()
         List<CartQueryDto> cartQueryDtos = cartQueryRepository.findCartQueryDtos(cart.getId());
         return cartQueryDtos;
     }

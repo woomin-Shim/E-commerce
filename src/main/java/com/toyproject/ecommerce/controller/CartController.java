@@ -1,8 +1,7 @@
 package com.toyproject.ecommerce.controller;
 
 import com.toyproject.ecommerce.controller.dto.CartForm;
-import com.toyproject.ecommerce.controller.dto.Form;
-import com.toyproject.ecommerce.domain.Item;
+import com.toyproject.ecommerce.controller.dto.cartItemForm;
 import com.toyproject.ecommerce.domain.Member;
 import com.toyproject.ecommerce.repository.query.CartQueryDto;
 import com.toyproject.ecommerce.service.CartService;
@@ -61,15 +60,15 @@ public class CartController {
      * 장바구니 삭제
      */
     @DeleteMapping("/cart")
-    public ResponseEntity<String> deleteCartItem(@RequestParam Long cartItemId) {
+    public ResponseEntity<String> deleteCartItem(@RequestBody cartItemForm form) {
 
-        log.info("itemId={}", cartItemId);
+        log.info("itemId={}", form.getCartItemId());
 
-        if (cartService.findCartItem(cartItemId) == null) {
+        if (cartService.findCartItem(form.getCartItemId()) == null) {
             return new ResponseEntity<String>("다시 시도해주세요.", HttpStatus.NOT_FOUND);
         }
 
-        cartService.deleteCartItem(cartItemId);
+        cartService.deleteCartItem(form.getCartItemId());
         return ResponseEntity.ok("success");
     }
 
