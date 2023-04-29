@@ -1,6 +1,5 @@
 package com.toyproject.ecommerce.repository.query;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +15,7 @@ public class CartQueryDto {
     private String itemName;  //상품명
     private int count;  //수량
     private int price; //상품 가격
+
 
     public CartQueryDto(Long cartItemId, String itemName, int count, int price) {
         this.cartItemId = cartItemId;

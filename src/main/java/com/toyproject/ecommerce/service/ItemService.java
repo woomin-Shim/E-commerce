@@ -34,6 +34,8 @@ public class ItemService {
 
         List<ItemImage> itemImages = filehandler.storeImages(multipartFileList);
 
+        //대표 상품 이미지 등록
+        itemImages.get(0).isFirstImage("Y");
 
         for (ItemImage itemImage : itemImages) {
             item.addItemImage(itemImageRepository.save(itemImage));
@@ -53,12 +55,13 @@ public class ItemService {
 
         findItem.updateItem(itemServiceDTO.getName(), itemServiceDTO.getDescription(), itemServiceDTO.getPrice(), itemServiceDTO.getStockQuantity());
 
-        log.info("=====findItem={}", findItem.getName());
-
         //상품 이미지를 수정(삭제, 추가) 하지 않으면 실행 x
         if(!multipartFileList.get(0).isEmpty()) {
             itemImageService.addItemImage(multipartFileList, findItem);
         }
+
+        List<ItemImage> itemImageList = itemImageRepository.findByItemIdAndDeleteYN(itemServiceDTO.getId(), "N");
+        itemImageList.get(0).isFirstImage("Y");
     }
 
 

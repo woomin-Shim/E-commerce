@@ -36,6 +36,9 @@ public class ItemImageService {
     public void delete(Long itemImageId) {
         ItemImage itemImage = itemImageRepository.findById(itemImageId).get();
         itemImage.deleteSet("Y");
+
+        //대표 상품 이미지 삭제
+        itemImage.isFirstImage("N");
     }
 
     //상품 이미지 추가
