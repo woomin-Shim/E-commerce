@@ -36,6 +36,8 @@ public class HomeController {
         List<Item> items = itemService.findItems();
 //        List<ItemImage> itemImages = itemImageService.findAllByDeleteYN("N");
         //queryDSL TODO
+        //패치 조인 일반 조인 비교 TODO
+        //페이징 기능 TODO,
 
 //        //엔티티 -> DTO
 //        List<ItemListDto> itemListDto = items.stream()
@@ -57,15 +59,6 @@ public class HomeController {
 
 
     }
-
-//    @GetMapping("/userHome")
-//    public String userHome(Model model) {
-//        List<Item> items = itemService.findItems();
-//
-//        model.addAttribute("items", items);
-//        log.info("userHome Controller");
-//        return "userHome";
-//    }
 
     @ResponseBody
     @GetMapping("/images/{filename}")
