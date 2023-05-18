@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ public class cartServiceTest {
 
     @Test
     @DisplayName("장바구니 담기 테스트")
+    @Rollback(value = false)
     public void addCart() {
         //given
         Member member = memberService.findMember(1L);

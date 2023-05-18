@@ -16,7 +16,7 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
     private int count;  //주문 수량
-    private int orderPrice;  //주문 총 가격
+    private int orderPrice;  //주문 상품 가격
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -39,4 +39,9 @@ public class OrderItem {
     public static OrderItem createOrderItem(int count, int orderPrice, Item item) {
         return new OrderItem(count, orderPrice, item);
     }
+
+//    public int getTotalPrice() {
+//        return getOrderPrice() * getCount();
+//    }
+
 }

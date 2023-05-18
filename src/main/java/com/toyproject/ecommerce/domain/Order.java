@@ -31,9 +31,9 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    private Order(OrderStatus status, Member member) {
-        this.status = status;
+    private Order(Member member) {
         this.member = member;
+        this.status = OrderStatus.ORDER;
         this.orderDate = LocalDateTime.now();
     }
 
@@ -43,11 +43,20 @@ public class Order {
         orderItem.changeOrder(this);
     }
 
-    public static Order createOrder(OrderStatus status, Member member, OrderItem... orderItems) {  //List<OrderItem> list??
-        Order order = new Order(status, member);
+    public static Order createOrder(Member member, List<OrderItem> orderItems) {  //List<OrderItem> list??
+        Order order = new Order(member);
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
         return order;
+    }
+
+    //== 전체 주문 가격 조회 ==/
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getOrderPrice();
+        }
+        return totalPrice;
     }
 }
