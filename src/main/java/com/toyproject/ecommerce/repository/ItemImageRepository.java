@@ -1,6 +1,6 @@
 package com.toyproject.ecommerce.repository;
 
-import com.toyproject.ecommerce.domain.ItemImage;
+import com.toyproject.ecommerce.entity.ItemImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

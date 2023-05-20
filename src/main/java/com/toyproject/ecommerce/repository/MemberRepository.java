@@ -1,6 +1,6 @@
 package com.toyproject.ecommerce.repository;
 
-import com.toyproject.ecommerce.domain.Member;
+import com.toyproject.ecommerce.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

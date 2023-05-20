@@ -1,6 +1,6 @@
 package com.toyproject.ecommerce.repository;
 
-import com.toyproject.ecommerce.domain.Cart;
+import com.toyproject.ecommerce.entity.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

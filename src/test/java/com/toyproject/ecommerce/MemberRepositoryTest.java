@@ -1,6 +1,6 @@
 package com.toyproject.ecommerce;
 
-import com.toyproject.ecommerce.domain.Member;
+import com.toyproject.ecommerce.entity.Member;
 import com.toyproject.ecommerce.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;

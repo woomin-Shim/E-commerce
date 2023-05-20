@@ -1,4 +1,4 @@
-package com.toyproject.ecommerce.domain;
+package com.toyproject.ecommerce.entity;
 
 public enum OrderStatus {
     ORDER, CANCEL

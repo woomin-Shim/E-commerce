@@ -2,7 +2,7 @@ package com.toyproject.ecommerce.controller;
 
 import com.toyproject.ecommerce.controller.dto.CartForm;
 import com.toyproject.ecommerce.controller.dto.cartItemForm;
-import com.toyproject.ecommerce.domain.Member;
+import com.toyproject.ecommerce.entity.Member;
 import com.toyproject.ecommerce.repository.query.CartQueryDto;
 import com.toyproject.ecommerce.service.CartService;
 import com.toyproject.ecommerce.service.ItemImageService;
@@ -73,7 +73,8 @@ public class CartController {
     }
 
 
-    private Member getMember(HttpServletRequest request) {
+    //다른 컨트롤러에서도 사용하기 위해 static
+    public static Member getMember(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
 

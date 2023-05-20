@@ -3,16 +3,17 @@ package com.toyproject.ecommerce.service;
 
 import com.toyproject.ecommerce.controller.dto.CartForm;
 import com.toyproject.ecommerce.controller.dto.CartOrderDto;
-import com.toyproject.ecommerce.domain.Item;
-import com.toyproject.ecommerce.domain.Member;
-import com.toyproject.ecommerce.domain.Order;
-import com.toyproject.ecommerce.domain.OrderStatus;
+import com.toyproject.ecommerce.entity.Item;
+import com.toyproject.ecommerce.entity.Member;
+import com.toyproject.ecommerce.entity.Order;
+import com.toyproject.ecommerce.entity.OrderStatus;
 import com.toyproject.ecommerce.repository.ItemRepository;
 import com.toyproject.ecommerce.repository.OrderRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -55,6 +56,7 @@ class OrderServiceTest {
 
     @Test
     @DisplayName("장바구니 상품들 주문 테스트 ")
+    @Rollback(value = false)
     public void ordersTest() {
         //given
         Member member = memberService.findMember(1L);
@@ -87,9 +89,14 @@ class OrderServiceTest {
         //then
         Order findOrder = orderRepository.findById(orderId).get();
 
+
+
+
         assertThat(findOrder.getTotalPrice()).isEqualTo(800000);  //(30000*10) + (100000*5)
         assertThat(findOrder.getMember()).isEqualTo(member);
         assertThat(findOrder.getOrderItems().size()).isEqualTo(2);
         assertThat(findOrder.getOrderItems().get(1).getItem().getName()).isEqualTo("자켓");
+
+
     }
 }

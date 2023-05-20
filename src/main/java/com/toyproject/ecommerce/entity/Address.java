@@ -1,8 +1,7 @@
-package com.toyproject.ecommerce.domain;
+package com.toyproject.ecommerce.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Embeddable
 @Getter

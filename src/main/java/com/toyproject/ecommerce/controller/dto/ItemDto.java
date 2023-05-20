@@ -1,6 +1,6 @@
 package com.toyproject.ecommerce.controller.dto;
 
-import com.toyproject.ecommerce.domain.Item;
+import com.toyproject.ecommerce.entity.Item;
 import lombok.Getter;
 import lombok.Setter;
 

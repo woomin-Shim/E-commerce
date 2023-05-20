@@ -1,6 +1,6 @@
 package com.toyproject.ecommerce.service;
 
-import com.toyproject.ecommerce.domain.Item;
+import com.toyproject.ecommerce.entity.Item;
 import com.toyproject.ecommerce.repository.ItemRepository;
 import org.junit.Assert;
 import org.junit.Test;

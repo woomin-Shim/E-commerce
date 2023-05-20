@@ -1,5 +1,6 @@
-package com.toyproject.ecommerce.domain;
+package com.toyproject.ecommerce.entity;
 
+import com.toyproject.ecommerce.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -52,5 +53,20 @@ public class Item {
     }
 
 
+    //== 비즈니스 메서드 ==//
+
+    //주문시 상품 재고 감소
+    public void minStock(int quantity) {
+        int restQuantity = stockQuantity - quantity;
+        if (restQuantity < 0) {
+            throw new NotEnoughStockException("상품 재고가 부족합니다!!");
+        }
+        stockQuantity = restQuantity;
+    }
+
+    //주문시 상품 재고 증가
+    public void addStock(int quantity) {
+        stockQuantity += quantity;
+    }
 
 }

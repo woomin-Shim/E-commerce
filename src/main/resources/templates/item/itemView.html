@@ -18,6 +18,7 @@
 
 
 <script th:inline="javascript">
+
     <!-- 처음 웹페이지 로딩시 호출 -->
     $(document).ready(function(){
 
@@ -72,10 +73,42 @@
                alert(jqXHR.responseText);
                location.href="/members"
            }
-
        })
-
     }
+
+    <!-- 단일 상품 바로 주문 -->
+    function order() {
+
+
+        var itemId = $("#id").val();
+        var count = $("#count").val();
+        var cartForm = {
+            itemId : itemId,
+            count : count
+        };
+
+        $.ajax({
+            url: "/order",
+            data: cartForm,
+            type: 'POST',
+            success: function(result) {
+                alert("상품 주문이 완료되었습니다.");
+            },
+
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status === 401) {
+                    alert(jqXHR.responseText);
+                    location.href="/members"
+                }
+                else {
+                    alert(jqXHR.responseText);
+                }
+
+            }
+
+        })
+    }
+
 </script>
 
 <body>
@@ -131,12 +164,12 @@
                 <br>
 
                 <div class="d-flex">
-                    <form th:action="@{/logout}" class="d-flex" method="post">
+
                         <button class="btn btn-outline-dark"
-                                type="submit">
+                                type="button" th:onclick="order()">
                             바로 구매하기
                         </button>
-                    </form>
+
                     &nbsp
                     <button class="btn btn-outline-dark flex-shrink-0" type="button" th:onclick="addCart()">
                         <i class="bi-cart-fill me-1"></i>

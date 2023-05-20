@@ -1,4 +1,4 @@
-package com.toyproject.ecommerce.domain;
+package com.toyproject.ecommerce.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -28,7 +28,7 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)  //Order.save 할 경우 orderItem도 같이 save TODO
     private List<OrderItem> orderItems = new ArrayList<>();
 
     private Order(Member member) {

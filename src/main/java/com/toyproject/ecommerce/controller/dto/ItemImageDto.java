@@ -1,9 +1,8 @@
 package com.toyproject.ecommerce.controller.dto;
 
 
-import com.toyproject.ecommerce.domain.ItemImage;
+import com.toyproject.ecommerce.entity.ItemImage;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter

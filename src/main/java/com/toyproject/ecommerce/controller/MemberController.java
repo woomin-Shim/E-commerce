@@ -2,8 +2,8 @@ package com.toyproject.ecommerce.controller;
 
 import com.toyproject.ecommerce.controller.dto.LoginForm;
 import com.toyproject.ecommerce.controller.dto.MemberForm;
-import com.toyproject.ecommerce.domain.Address;
-import com.toyproject.ecommerce.domain.Member;
+import com.toyproject.ecommerce.entity.Address;
+import com.toyproject.ecommerce.entity.Member;
 import com.toyproject.ecommerce.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

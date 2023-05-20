@@ -1,6 +1,5 @@
 package com.toyproject.ecommerce.controller.dto;
 
-import com.toyproject.ecommerce.domain.ItemImage;
 import com.toyproject.ecommerce.service.dto.ItemServiceDTO;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

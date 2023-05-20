@@ -1,7 +1,7 @@
 package com.toyproject.ecommerce;
 
-import com.toyproject.ecommerce.domain.Address;
-import com.toyproject.ecommerce.domain.Member;
+import com.toyproject.ecommerce.entity.Address;
+import com.toyproject.ecommerce.entity.Member;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

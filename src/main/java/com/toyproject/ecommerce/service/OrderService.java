@@ -2,10 +2,10 @@ package com.toyproject.ecommerce.service;
 
 import com.toyproject.ecommerce.controller.dto.CartForm;
 import com.toyproject.ecommerce.controller.dto.CartOrderDto;
-import com.toyproject.ecommerce.domain.Item;
-import com.toyproject.ecommerce.domain.Member;
-import com.toyproject.ecommerce.domain.Order;
-import com.toyproject.ecommerce.domain.OrderItem;
+import com.toyproject.ecommerce.entity.Item;
+import com.toyproject.ecommerce.entity.Member;
+import com.toyproject.ecommerce.entity.Order;
+import com.toyproject.ecommerce.entity.OrderItem;
 import com.toyproject.ecommerce.repository.ItemRepository;
 import com.toyproject.ecommerce.repository.MemberRepository;
 import com.toyproject.ecommerce.repository.OrderRepository;
@@ -68,4 +68,9 @@ public class OrderService {
         return save.getId();
 
     }
+
+    /**
+     * 주문 목록 조회
+     */
+
 }

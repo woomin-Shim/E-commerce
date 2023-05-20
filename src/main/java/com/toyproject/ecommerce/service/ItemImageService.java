@@ -1,7 +1,7 @@
 package com.toyproject.ecommerce.service;
 
-import com.toyproject.ecommerce.domain.Item;
-import com.toyproject.ecommerce.domain.ItemImage;
+import com.toyproject.ecommerce.entity.Item;
+import com.toyproject.ecommerce.entity.ItemImage;
 import com.toyproject.ecommerce.repository.ItemImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

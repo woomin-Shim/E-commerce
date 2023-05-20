@@ -1,13 +1,10 @@
 package com.toyproject.ecommerce.service;
 
-import com.toyproject.ecommerce.domain.Cart;
-import com.toyproject.ecommerce.domain.CartItem;
-import com.toyproject.ecommerce.domain.Item;
-import com.toyproject.ecommerce.domain.Member;
+import com.toyproject.ecommerce.entity.CartItem;
+import com.toyproject.ecommerce.entity.Item;
+import com.toyproject.ecommerce.entity.Member;
 import com.toyproject.ecommerce.repository.CartItemRepository;
-import com.toyproject.ecommerce.repository.CartRepository;
 import com.toyproject.ecommerce.repository.ItemRepository;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;

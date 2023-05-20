@@ -1,4 +1,4 @@
-package com.toyproject.ecommerce.domain;
+package com.toyproject.ecommerce.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -37,11 +37,13 @@ public class OrderItem {
     }
 
     public static OrderItem createOrderItem(int count, int orderPrice, Item item) {
+        item.minStock(count);
         return new OrderItem(count, orderPrice, item);
     }
 
-//    public int getTotalPrice() {
-//        return getOrderPrice() * getCount();
-//    }
+    //== 비즈니스 메서드 ==//
+    public void cancel() {
+        item.addStock(count);
+    }
 
 }

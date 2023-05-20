@@ -1,14 +1,12 @@
 package com.toyproject.ecommerce.controller;
 
 
-import com.toyproject.ecommerce.domain.Item;
-import com.toyproject.ecommerce.domain.Member;
+import com.toyproject.ecommerce.entity.Item;
 import com.toyproject.ecommerce.service.FileHandler;
 import com.toyproject.ecommerce.service.ItemImageService;
 import com.toyproject.ecommerce.service.ItemService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;

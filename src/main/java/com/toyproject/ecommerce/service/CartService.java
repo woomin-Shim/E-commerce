@@ -1,9 +1,9 @@
 package com.toyproject.ecommerce.service;
 
-import com.toyproject.ecommerce.domain.Cart;
-import com.toyproject.ecommerce.domain.CartItem;
-import com.toyproject.ecommerce.domain.Item;
-import com.toyproject.ecommerce.domain.Member;
+import com.toyproject.ecommerce.entity.Cart;
+import com.toyproject.ecommerce.entity.CartItem;
+import com.toyproject.ecommerce.entity.Item;
+import com.toyproject.ecommerce.entity.Member;
 import com.toyproject.ecommerce.repository.CartItemRepository;
 import com.toyproject.ecommerce.repository.CartRepository;
 import com.toyproject.ecommerce.repository.ItemRepository;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

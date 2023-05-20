@@ -1,4 +1,4 @@
-package com.toyproject.ecommerce.domain;
+package com.toyproject.ecommerce.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,11 +1,9 @@
 package com.toyproject.ecommerce.service;
 
 
-import com.toyproject.ecommerce.domain.Address;
-import com.toyproject.ecommerce.domain.Member;
-import com.toyproject.ecommerce.domain.Role;
+import com.toyproject.ecommerce.entity.Address;
+import com.toyproject.ecommerce.entity.Member;
 import com.toyproject.ecommerce.repository.MemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
