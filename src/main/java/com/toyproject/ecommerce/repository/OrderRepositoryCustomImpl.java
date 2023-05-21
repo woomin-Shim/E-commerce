@@ -22,7 +22,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
 
     // 주문 목록 조회 쿼리 (주문취소, 주문 완료 동적 쿼리 TODO)
     @Override
-    public List<OrderDto> findOrdersByDto(Long memberId) {
+    public List<OrderDto> findOrderDtos(Long memberId) {
 
         return queryFactory
                 .select(new QOrderDto(

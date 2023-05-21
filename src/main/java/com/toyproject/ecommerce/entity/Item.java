@@ -64,7 +64,7 @@ public class Item {
         stockQuantity = restQuantity;
     }
 
-    //주문시 상품 재고 증가
+    //주문 취소시 상품 재고 증가
     public void addStock(int quantity) {
         stockQuantity += quantity;
     }

@@ -24,6 +24,7 @@ public class OrderController {
     @PostMapping("/order")
     public ResponseEntity<String> order(@ModelAttribute CartForm cartForm, HttpServletRequest request) {
 
+        //CartController 에 작성해둔 세션 정보 조회하는 기능 공용으로 사용
         Member member = CartController.getMember(request);
 
         if (member == null) {

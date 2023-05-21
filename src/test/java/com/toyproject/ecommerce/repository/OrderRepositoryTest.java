@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -65,7 +64,7 @@ class OrderRepositoryTest {
         //when
         Long orderId = orderService.orders(member.getId(), cartOrderDto);
 
-        List<OrderDto> result = orderRepository.findOrdersByDto(member.getId());
+        List<OrderDto> result = orderRepository.findOrderDtos(member.getId());
         for (OrderDto orderDto : result) {
             System.out.println("orderDto = " + orderDto);
         }

@@ -49,10 +49,6 @@ public class ItemService {
 
         Item findItem = itemRepository.findById(itemServiceDTO.getId()).orElse(null);  //DB에서 찾아옴 -> 영속 상태
 
-        log.info("=====findItem={}", findItem.getName());
-
-        log.info("======itemServiceDTO.getName={}", itemServiceDTO.getName());
-
         findItem.updateItem(itemServiceDTO.getName(), itemServiceDTO.getDescription(), itemServiceDTO.getPrice(), itemServiceDTO.getStockQuantity());
 
         //상품 이미지를 수정(삭제, 추가) 하지 않으면 실행 x
