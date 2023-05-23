@@ -25,6 +25,8 @@ public class OrderService {
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
 
+    private final CartService cartService;
+
     /**
      * 단일 주문
      */
@@ -63,10 +65,20 @@ public class OrderService {
         }
 
         Order order = Order.createOrder(findMember, orderItemList);
-
         Order save = orderRepository.save(order);
+
+        //주문한 상품은 장바구니에서 제거
+        deleteCartItem(cartOrderDto);
+
         return save.getId();
 
+    }
+
+    private void deleteCartItem(CartOrderDto cartOrderDto) {
+        List<CartForm> cartOrderDtoList = cartOrderDto.getCartOrderDtoList();
+        for (CartForm cartForm : cartOrderDtoList) {
+            cartService.deleteCartItem(cartForm.getItemId());
+        }
     }
 
     /**
