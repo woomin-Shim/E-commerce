@@ -34,7 +34,7 @@ public class ItemService {
 
         List<ItemImage> itemImages = filehandler.storeImages(multipartFileList);
 
-        //대표 상품 이미지 등록
+        //대표 상품 이미지 설정
         itemImages.get(0).isFirstImage("Y");
 
         for (ItemImage itemImage : itemImages) {
@@ -56,6 +56,7 @@ public class ItemService {
             itemImageService.addItemImage(multipartFileList, findItem);
         }
 
+        //대표 이미지 재설정
         List<ItemImage> itemImageList = itemImageRepository.findByItemIdAndDeleteYN(itemServiceDTO.getId(), "N");
         itemImageList.get(0).isFirstImage("Y");
     }

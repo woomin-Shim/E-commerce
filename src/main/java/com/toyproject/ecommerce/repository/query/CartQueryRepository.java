@@ -14,12 +14,11 @@ public class CartQueryRepository {
 
     public List<CartQueryDto> findCartQueryDtos(Long cartId) {
         List<CartQueryDto> cartQueryDtoList = em.createQuery(
-                        "select new com.toyproject.ecommerce.repository.query.CartQueryDto(ci.id, i.name, ci.count, i.price, im.storeName)" +
+                        "select new com.toyproject.ecommerce.repository.query.CartQueryDto(ci.id, i.name, i.stockQuantity, ci.count, i.price, im.storeName)" +
                                 " from CartItem ci" +
                                 " join ci.item i" +
                                 " join i.itemImageList im" +
-                                " where ci.cart.id = :cartId and" +
-                                " im.firstImage='Y'", CartQueryDto.class)
+                                " where ci.cart.id = :cartId and im.firstImage='Y'", CartQueryDto.class)
                 .setParameter("cartId", cartId)
                 .getResultList();
 

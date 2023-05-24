@@ -149,14 +149,27 @@
                 </div>
                 <hr class="my-4">
 
+<!--                <div class="input-group fs-5 mb-5">-->
+<!--                    <div class="input-group-prepend">-->
+<!--                        <input type="hidden" th:value="${item.stockQuantity}" id="stockQuantity" name="stockQuantity">-->
+<!--                        <span class="input-group-text">주문 수량</span>-->
+<!--                    </div>-->
+<!--                    <input class="form-control text-center me-3" id="count" name="count" type="number" value="1" style="max-width: 5rem" />-->
+
+<!--                    <span class="input-group-text">구매가능 수량: <span th:text="${item.stockQuantity}"></span></span>-->
+<!--                </div>-->
+
                 <div class="input-group fs-5 mb-5">
                     <div class="input-group-prepend">
                         <input type="hidden" th:value="${item.stockQuantity}" id="stockQuantity" name="stockQuantity">
                         <span class="input-group-text">주문 수량</span>
                     </div>
-                    <input class="form-control text-center me-3" id="count" name="count" type="number" value="1" style=" max-width: 5rem" />
+                    <input class="form-control text-center me-3" id="count" name="count" type="number" value="1" style="max-width: 5rem" />
+                    <span class="input-group-text">
+                        <span style="color: black;">구매 가능 수량: </span>
+                        <span style="color: red;" th:text=" ' ' + ${item.stockQuantity}"></span>
+                    </span>
                 </div>
-
 
                 <div class="container bg-light">
                     <h6>총 상품 금액</h6>
