@@ -67,8 +67,8 @@ public class OrderService {
         Order order = Order.createOrder(findMember, orderItemList);
         Order save = orderRepository.save(order);
 
-        //주문한 상품은 장바구니에서 제거
-        deleteCartItem(cartOrderDto);
+//        //주문한 상품은 장바구니에서 제거
+//        deleteCartItem(cartOrderDto);
 
         return save.getId();
 

@@ -5,4 +5,6 @@ import java.util.List;
 public interface OrderRepositoryCustom {
 
     List<OrderDto> findOrderDtos(Long memberId);
+
+    List<OrderDto> findOrderDetail(Long memberId);
 }
