@@ -1,6 +1,7 @@
 package com.toyproject.ecommerce.repository;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.toyproject.ecommerce.entity.*;
 import jakarta.persistence.EntityManager;
@@ -22,9 +23,9 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
     }
 
     @Override
-    public List<OrderDto> findOrderDetail(Long memberId) {
+    public List<OrderDto> findOrderDetail(Long memberId, OrderStatus orderStatus) {
 
-        List<OrderDto> orderDtos = findOrderDtos(memberId);
+        List<OrderDto> orderDtos = findOrderDtos(memberId, orderStatus);
 
         orderDtos.forEach(o-> {
             List<OrderItemDto> findOrderItemDto = findOrderItemDtos(o.getOrderId());
@@ -36,7 +37,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
 
     // 주문 목록 조회 쿼리 (주문취소, 주문 완료 동적 쿼리 TODO)
     @Override
-    public List<OrderDto> findOrderDtos(Long memberId) {
+    public List<OrderDto> findOrderDtos(Long memberId, OrderStatus orderStatus) {
 
         return queryFactory
                 .select(new QOrderDto(
@@ -46,8 +47,19 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
                 ))
                 .from(order)
                 .join(order.member, member)
-                .where(member.id.eq(memberId))
+                .where(member.id.eq(memberId),
+                        orderStatusEq(orderStatus))
                 .fetch();
+    }
+
+    private BooleanExpression orderStatusEq(OrderStatus orderStatus) {
+
+        return orderStatus != null ? order.status.eq(orderStatus) : null;
+
+//        if (orderStatus == null) {
+//            return null;
+//        }
+//        return order.status.eq(orderStatus);
     }
 
     private List<OrderItemDto> findOrderItemDtos(Long orderId) {

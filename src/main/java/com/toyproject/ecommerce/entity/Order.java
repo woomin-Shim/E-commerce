@@ -43,6 +43,7 @@ public class Order {
         orderItem.changeOrder(this);
     }
 
+
     public static Order createOrder(Member member, List<OrderItem> orderItems) {  //List<OrderItem> list??
         Order order = new Order(member);
         for (OrderItem orderItem : orderItems) {
@@ -50,6 +51,17 @@ public class Order {
         }
         return order;
     }
+
+    //주문 취소
+    public void cancelOrder() {
+        this.status = OrderStatus.CANCEL;
+
+        //상품 재고 수량 복귀
+        for (OrderItem orderItem : orderItems) {
+            orderItem.cancel();
+        }
+    }
+
 
     //== 전체 주문 가격 조회 ==/
     public int getTotalPrice() {

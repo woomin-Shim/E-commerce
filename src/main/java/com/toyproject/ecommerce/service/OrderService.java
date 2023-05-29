@@ -85,4 +85,13 @@ public class OrderService {
      * 주문 목록 조회
      */
 
+
+    /**
+     * 주문 취소
+     */
+    public void cancelOrder(Long orderId) {
+        Order findOrder = orderRepository.findById(orderId).orElseGet(() -> null);
+        findOrder.cancelOrder();
+    }
+
 }
