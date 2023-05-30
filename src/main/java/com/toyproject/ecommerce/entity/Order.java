@@ -20,6 +20,7 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
     private LocalDateTime orderDate;
+    private int totalPrice;
 
     @Enumerated(value = EnumType.STRING)
     private OrderStatus status;
@@ -49,6 +50,10 @@ public class Order {
         for (OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
+
+        //총 주문 가격 추가
+        order.totalPrice = order.getTotalPrice();
+
         return order;
     }
 

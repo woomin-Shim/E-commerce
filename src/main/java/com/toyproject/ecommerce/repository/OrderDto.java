@@ -17,14 +17,16 @@ import java.util.List;
 public class OrderDto {
 
     private Long orderId;
+    private int totalPrice;  //총 주문 가격
     private LocalDateTime orderDate;
     private OrderStatus orderStatus;
     private List<OrderItemDto> orderItemDtoList;
 
 
     @QueryProjection
-    public OrderDto(Long orderId, LocalDateTime orderDate, OrderStatus orderStatus) {
+    public OrderDto(Long orderId, int totalPrice, LocalDateTime orderDate, OrderStatus orderStatus) {
         this.orderId = orderId;
+        this.totalPrice = totalPrice;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
     }

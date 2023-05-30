@@ -7,6 +7,9 @@ import com.toyproject.ecommerce.repository.ItemRepository;
 import com.toyproject.ecommerce.service.dto.ItemServiceDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -65,10 +68,18 @@ public class ItemService {
     @Transactional(readOnly=true)
     public List<Item> findItems() {
         return itemRepository.findAll();
+
+    }
+    @Transactional(readOnly=true)
+    public List<Item> findItemsPaging() {
+        Page<Item> result = itemRepository.findAll(PageRequest.of(0, 3));
+        return result.getContent();
     }
 
-    @Transactional(readOnly=true)
+
+    @Transactional(readOnly = true)
     public Item findItem(Long ItemId) {
+
         return itemRepository.findById(ItemId).orElse(null);
     }
 }

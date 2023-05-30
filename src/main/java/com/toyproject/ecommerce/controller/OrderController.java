@@ -3,7 +3,9 @@ package com.toyproject.ecommerce.controller;
 import com.toyproject.ecommerce.controller.dto.CartForm;
 import com.toyproject.ecommerce.controller.dto.CartOrderDto;
 import com.toyproject.ecommerce.entity.Member;
+import com.toyproject.ecommerce.entity.OrderStatus;
 import com.toyproject.ecommerce.exception.NotEnoughStockException;
+import com.toyproject.ecommerce.repository.OrderDto;
 import com.toyproject.ecommerce.service.CartService;
 import com.toyproject.ecommerce.service.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,9 +13,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -71,4 +77,18 @@ public class OrderController {
         return ResponseEntity.ok("order Success");
     }
 
+    /**
+     * 주문 내역 조회
+     */
+    @GetMapping("/orders")
+    public String findOrder(OrderStatus status, Model model, HttpServletRequest request ) {
+
+        Member member = CartController.getMember(request);
+
+        List<OrderDto> findOrders = orderService.findOrdersDetail(member.getId(), status);
+        model.addAttribute("orderDetails", findOrders);
+
+        return "orders/orderList";
+
+    }
 }

@@ -42,6 +42,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
         return queryFactory
                 .select(new QOrderDto(
                         order.id,
+                        order.totalPrice,
                         order.orderDate,
                         order.status
                 ))

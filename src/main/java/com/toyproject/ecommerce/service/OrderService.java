@@ -2,12 +2,10 @@ package com.toyproject.ecommerce.service;
 
 import com.toyproject.ecommerce.controller.dto.CartForm;
 import com.toyproject.ecommerce.controller.dto.CartOrderDto;
-import com.toyproject.ecommerce.entity.Item;
-import com.toyproject.ecommerce.entity.Member;
-import com.toyproject.ecommerce.entity.Order;
-import com.toyproject.ecommerce.entity.OrderItem;
+import com.toyproject.ecommerce.entity.*;
 import com.toyproject.ecommerce.repository.ItemRepository;
 import com.toyproject.ecommerce.repository.MemberRepository;
+import com.toyproject.ecommerce.repository.OrderDto;
 import com.toyproject.ecommerce.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,10 +63,11 @@ public class OrderService {
         }
 
         Order order = Order.createOrder(findMember, orderItemList);
+
         Order save = orderRepository.save(order);
 
-//        //주문한 상품은 장바구니에서 제거
-//        deleteCartItem(cartOrderDto);
+        //주문한 상품은 장바구니에서 제거
+        deleteCartItem(cartOrderDto);
 
         return save.getId();
 
@@ -84,6 +83,11 @@ public class OrderService {
     /**
      * 주문 목록 조회
      */
+    @Transactional(readOnly = true)
+    public List<OrderDto> findOrdersDetail(Long memberId, OrderStatus orderStatus) {
+        return orderRepository.findOrderDetail(memberId, orderStatus);
+    }
+
 
 
     /**
