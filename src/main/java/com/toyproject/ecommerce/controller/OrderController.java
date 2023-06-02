@@ -86,8 +86,8 @@ public class OrderController {
         Member member = CartController.getMember(request);
 
         List<OrderDto> findOrders = orderService.findOrdersDetail(member.getId(), status);
-        model.addAttribute("orderDetails", findOrders);
 
+        model.addAttribute("orderDetails", findOrders);
         return "orders/orderList";
 
     }

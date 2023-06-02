@@ -89,8 +89,7 @@ public class OrderService {
     }
 
 
-
-    /**
+    /*
      * 주문 취소
      */
     public void cancelOrder(Long orderId) {

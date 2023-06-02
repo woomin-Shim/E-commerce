@@ -12,10 +12,10 @@ public class OrderItemDto {
     private int count; //주문 수량
     private String imgUrl; //대표 상품 이미지 경로
 
-    public OrderItemDto(String itemName, int orderPrice, int count) {
+    public OrderItemDto(String itemName, int orderPrice, int count, String imgUrl) {
         this.itemName = itemName;
         this.orderPrice = orderPrice;
         this.count = count;
-//        this.imgUrl = imgUrl;
+        this.imgUrl = imgUrl;
     }
 }

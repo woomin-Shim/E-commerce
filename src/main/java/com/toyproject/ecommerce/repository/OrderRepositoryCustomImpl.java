@@ -48,8 +48,8 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
                 ))
                 .from(order)
                 .join(order.member, member)
-                .where(member.id.eq(memberId),
-                        orderStatusEq(orderStatus))
+                .where(member.id.eq(memberId))
+                .orderBy(order.orderDate.desc())
                 .fetch();
     }
 
@@ -69,14 +69,14 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom{
                 .select(Projections.constructor(OrderItemDto.class,
                         item.name,
                         orderItem.orderPrice,
-                        orderItem.count
-//                        itemImage.storeName
+                        orderItem.count,
+                        itemImage.storeName
                 ))
                 .from(orderItem)
                 .join(orderItem.item, item)
-//                .join(item.itemImageList, itemImage)
-                .where(orderItem.order.id.eq(orderId)
-//                        itemImage.firstImage.eq("Y")  //대표 상품 이미지만 고르기!
+                .join(item.itemImageList, itemImage)
+                .where(orderItem.order.id.eq(orderId),
+                        itemImage.firstImage.eq("Y")  //대표 상품 이미지만 고르기!
                 )
                 .fetch();
     }
