@@ -22,6 +22,34 @@
 
 </head>
 
+<script th:inline="javascript">
+
+    <!-- 주문 취소 -->
+    function cancel(orderId) {
+        var url = "/order/" + orderId + "/cancel"
+
+        $.ajax({
+            url : url,
+            type: 'POST',
+
+            <!-- 성공시 -->
+            success: function (result) {
+                alert("주문이 취소되었습니다.");
+                location.href="/order"
+            },
+            <!-- 실패시 -->
+            error: function (jqXHR) {
+                alert(jqXHR.responseText);
+                location.href = "/order";
+            }
+
+        })
+
+    }
+
+</script>
+
+
 <body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #e3f2fd;">
@@ -98,7 +126,8 @@
                                     </h6>
 
                                     <th:block th:if="${order.orderStatus.name() == 'ORDER'}">
-                                        <button class="btn btn-outline-dark">주문 취소</button>
+                                        <button class="btn btn-outline-dark" th:orderId="${order.orderId}" th:value="${order.orderId}"
+                                        onclick="cancel(this.getAttribute('orderId'))">주문 취소</button>
                                     </th:block>
 
                                 </div>

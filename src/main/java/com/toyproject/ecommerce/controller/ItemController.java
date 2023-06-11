@@ -146,6 +146,8 @@ public class ItemController {
 
         List<Item> itemList = itemService.findItems();
 
+
+
         //엔티티 -> DTO
         List<ItemDto> itemListDto = itemList.stream()
                 .map(item -> new ItemDto(item))

@@ -44,6 +44,7 @@ public class CartController {
      *  장바구니 담기
      */
     @PostMapping("/cart")
+    @ResponseBody
     public ResponseEntity<String> addCart(@ModelAttribute CartForm cartForm, HttpServletRequest request) {
 
         Member member = getMember(request);
@@ -60,6 +61,7 @@ public class CartController {
      * 장바구니 삭제
      */
     @DeleteMapping("/cart")
+    @ResponseBody
     public ResponseEntity<String> deleteCartItem(@RequestBody cartItemForm form) {
 
         log.info("itemId={}", form.getCartItemId());

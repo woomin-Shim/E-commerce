@@ -14,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +29,7 @@ public class OrderController {
      * 단일 상품 바로 주문
      */
     @PostMapping("/order")
+    @ResponseBody
     public ResponseEntity<String> order(@ModelAttribute CartForm cartForm, HttpServletRequest request) {
 
         //CartController 에 작성해둔 세션 정보 조회하는 기능 공용으로 사용
@@ -54,6 +52,7 @@ public class OrderController {
      * 장바구니 상품 주문
      */
     @PostMapping("/orders")
+    @ResponseBody
     public ResponseEntity<String> orders(@RequestBody CartOrderDto cartOrderDto, HttpServletRequest request) {
 
         //장바구니에서 아무 상품도 체크하지 않을 경우
@@ -81,7 +80,7 @@ public class OrderController {
      * 주문 내역 조회
      */
     @GetMapping("/orders")
-    public String findOrder(OrderStatus status, Model model, HttpServletRequest request ) {
+    public String findOrder(OrderStatus status, Model model, HttpServletRequest request) {
 
         Member member = CartController.getMember(request);
 
@@ -90,5 +89,17 @@ public class OrderController {
         model.addAttribute("orderDetails", findOrders);
         return "orders/orderList";
 
+    }
+
+    /**
+     * 주문 취소
+     */
+    @PostMapping("/order/{orderId}/cancel")
+    @ResponseBody
+    public ResponseEntity<String> cancelOrder(@PathVariable("orderId") Long orderId) {
+
+        orderService.cancelOrder(orderId);
+
+        return ResponseEntity.ok("Success");
     }
 }
