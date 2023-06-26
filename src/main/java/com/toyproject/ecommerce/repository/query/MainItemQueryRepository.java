@@ -49,11 +49,25 @@ public class MainItemQueryRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
 
+        //COUNTQUERY 에서 조인 할 필요가 있을까? 대표 이미지
         JPAQuery<Long> total = queryFactory
                 .select(item.count())
                 .from(item);
 
         return PageableExecutionUtils.getPage(content, pageable, total::fetchOne);  //CountQuery 최적화
 
+
+        /**
+         * SELECT COUNT(I.ITEM_ID) FROM ITEM I
+         * JOIN ITEM_IMAGE IM
+         * ON I.ITEM_ID = IM.ITEM_ID
+         * WHERE IM.FIRST_IMAGE='Y';
+         *
+         * SELECT COUNT(I.ITEM_ID) FROM ITEM I;
+         *
+         * SELECT * FROM ITEM I
+         * JOIN ITEM_IMAGE IM
+         * ON I.ITEM_ID = IM.ITEM_ID;
+         */
     }
 }
