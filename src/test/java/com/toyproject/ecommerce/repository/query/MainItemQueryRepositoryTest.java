@@ -4,11 +4,20 @@ package com.toyproject.ecommerce.repository.query;
 import com.toyproject.ecommerce.entity.Item;
 import com.toyproject.ecommerce.entity.ItemImage;
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -20,6 +29,7 @@ class MainItemQueryRepositoryTest {
     EntityManager em;
 
     @Test
+    @Rollback(value = false)
     @DisplayName("메인 페이지 페이징 테스트")
     public void mainPageTest() {
 
@@ -34,22 +44,52 @@ class MainItemQueryRepositoryTest {
                 .storeName("shoes11.jpeg")
                 .build();
 
-        shoesImage1.isFirstImage("Y");  //대표 상품 이미지 설정
-
         ItemImage shoesImage2 = ItemImage.builder()
                 .originalName("shoes2.jpeg")
                 .storeName("shoes22.jpeg")
                 .build();
 
+        shoesImage1.isFirstImage("Y");  //대표 상품 이미지 설정
+
         em.persist(shoesImage2);
         em.persist(shoesImage1);
 
+        item1.addItemImage(shoesImage1);
+        item1.addItemImage(shoesImage2);
 
-        em.flush();
-        em.clear();
+
+        ItemImage jacketImage1 = ItemImage.builder()
+                .originalName("jacket.jpeg")
+                .storeName("jacket11.jpeg")
+                .build();
+
+        ItemImage jacketImage2 = ItemImage.builder()
+                .originalName("jacket2.jpeg")
+                .storeName("jacket22.jpeg")
+                .build();
+
+        jacketImage2.isFirstImage("Y");
+
+        em.persist(jacketImage1);
+        em.persist(jacketImage2);
+
+        item2.addItemImage(jacketImage1);
+        item2.addItemImage(jacketImage2);
+
 
         //when
+        Pageable pageable = PageRequest.of(0, 2);
+        Page<MainItemDto> result = mainRepository.findMainItem(pageable);
+        List<MainItemDto> content = result.getContent();
 
         //then
+        assertThat(content.size()).isEqualTo(2);  //content의 사이즈는 2이다.
+        assertThat(content).extracting("itemName").containsExactly("신발", "자켓");
+        assertThat(content).extracting("imgUrl").containsExactly("shoes11.jpeg", "jacket22.jpeg");
+
+        System.out.println(result.getTotalPages());  //전체 페이지 수
+        System.out.println(result.getTotalElements());  //전체 데이터 수
+        System.out.println(result.getNumber());  //현재 페이시
+        System.out.println(result.getSize());  //페이지 크기
     }
 }
