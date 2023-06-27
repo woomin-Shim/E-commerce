@@ -2,8 +2,10 @@ package com.toyproject.ecommerce.repository.query;
 
 import com.querydsl.core.annotations.QueryProjection;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.toyproject.ecommerce.controller.dto.ItemSearchCondition;
 import com.toyproject.ecommerce.entity.Item;
 import com.toyproject.ecommerce.entity.QItem;
 import com.toyproject.ecommerce.entity.QItemImage;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class MainItemQueryRepository {
     }
 
 
-    public Page<MainItemDto> findMainItem(Pageable pageable) {
+    public Page<MainItemDto> findMainItem(Pageable pageable, ItemSearchCondition condition) {
 
         List<MainItemDto> content = queryFactory
                 .select(new QMainItemDto(
@@ -44,14 +47,16 @@ public class MainItemQueryRepository {
                 ))
                 .from(item)
                 .join(item.itemImageList, itemImage)
-                .where(itemImage.firstImage.eq("Y"))
+                .where(itemImage.firstImage.eq("Y"),
+                        itemNameContain(condition.getItemName()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        //COUNTQUERY 에서 조인 할 필요가 있을까? 대표 이미지
+        //COUNTQUERY 에서 join이 필요가 있을까? 대표 이미지
         JPAQuery<Long> total = queryFactory
                 .select(item.count())
+                .where(itemNameContain(condition.getItemName()))
                 .from(item);
 
         return PageableExecutionUtils.getPage(content, pageable, total::fetchOne);  //CountQuery 최적화
@@ -70,4 +75,9 @@ public class MainItemQueryRepository {
          * ON I.ITEM_ID = IM.ITEM_ID;
          */
     }
+
+    private BooleanExpression itemNameContain(String itemName) {
+        return StringUtils.hasText(itemName) ? item.name.contains(itemName) : null;
+    }
+
 }

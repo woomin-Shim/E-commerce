@@ -1,6 +1,7 @@
 package com.toyproject.ecommerce.controller;
 
 
+import com.toyproject.ecommerce.controller.dto.ItemSearchCondition;
 import com.toyproject.ecommerce.entity.Item;
 import com.toyproject.ecommerce.repository.query.MainItemDto;
 import com.toyproject.ecommerce.repository.query.MainItemQueryRepository;
@@ -37,46 +38,48 @@ public class HomeController {
     private final FileHandler fileHandler;
 
     @GetMapping("/")
-    public String home2(@ModelAttribute Optional<Integer> page, Model model) {
+    public String home2(@ModelAttribute Optional<Integer> page, ItemSearchCondition itemSearchCondition, Model model) {
 
         PageRequest pageRequest = PageRequest.of(page.orElseGet(() -> 0), 3);
 
-        Page<MainItemDto> result = mainItemQueryRepository.findMainItem(pageRequest);
+        Page<MainItemDto> result = mainItemQueryRepository.findMainItem(pageRequest, itemSearchCondition);
 
         model.addAttribute("result", result);
         model.addAttribute("maxPage", 10);
 
+
+        return "home";
     }
 
-    @GetMapping("/")
-    public String home(Model model, HttpServletRequest request) {
-
-        List<Item> items = itemService.findItems();
-//        List<ItemImage> itemImages = itemImageService.findAllByDeleteYN("N");
-        //queryDSL TODO
-        //패치 조인 일반 조인 비교 TODO
-        //페이징 기능 TODO,
-
-//        //엔티티 -> DTO
-//        List<ItemListDto> itemListDto = items.stream()
-//                .map(ItemListDto::new)
-//                .collect(Collectors.toList());
-        model.addAttribute("items", items);
-
-        HttpSession session = request.getSession(false);
-
-        //비로그인 사용자
-        if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
-            log.info("home controller");
-            return "home";
-        }
-
-        //로그인된 사용자
-        log.info("userHome Controller");
-        return "userHome";
-
-
-    }
+//    @GetMapping("/")
+//    public String home(Model model, HttpServletRequest request) {
+//
+//        List<Item> items = itemService.findItems();
+////        List<ItemImage> itemImages = itemImageService.findAllByDeleteYN("N");
+//        //queryDSL TODO
+//        //패치 조인 일반 조인 비교 TODO
+//        //페이징 기능 TODO,
+//
+////        //엔티티 -> DTO
+////        List<ItemListDto> itemListDto = items.stream()
+////                .map(ItemListDto::new)
+////                .collect(Collectors.toList());
+//        model.addAttribute("items", items);
+//
+//        HttpSession session = request.getSession(false);
+//
+//        //비로그인 사용자
+//        if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
+//            log.info("home controller");
+//            return "home";
+//        }
+//
+//        //로그인된 사용자
+//        log.info("userHome Controller");
+//        return "userHome";
+//
+//
+//    }
 
     @ResponseBody
     @GetMapping("/images/{filename}")

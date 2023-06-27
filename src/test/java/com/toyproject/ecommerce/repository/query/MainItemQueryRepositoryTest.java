@@ -1,6 +1,7 @@
 package com.toyproject.ecommerce.repository.query;
 
 
+import com.toyproject.ecommerce.controller.dto.ItemSearchCondition;
 import com.toyproject.ecommerce.entity.Item;
 import com.toyproject.ecommerce.entity.ItemImage;
 import jakarta.persistence.EntityManager;
@@ -34,8 +35,8 @@ class MainItemQueryRepositoryTest {
     public void mainPageTest() {
 
         //given
-        Item item1 = Item.createItem("신발", "나이키 신발", 30000, 300);
-        Item item2 = Item.createItem("자켓", "프라다 자켓", 100000, 50);
+        Item item1 = Item.createItem("나이키 신발", "나이키 신발", 30000, 300);
+        Item item2 = Item.createItem("프라다 자켓", "프라다 자켓", 100000, 50);
         em.persist(item1);
         em.persist(item2);
 
@@ -79,13 +80,22 @@ class MainItemQueryRepositoryTest {
 
         //when
         Pageable pageable = PageRequest.of(0, 2);
-        Page<MainItemDto> result = mainRepository.findMainItem(pageable);
+        ItemSearchCondition condition = new ItemSearchCondition();
+        condition.setItemName("나이키");
+
+        Page<MainItemDto> result = mainRepository.findMainItem(pageable, condition);
         List<MainItemDto> content = result.getContent();
 
         //then
         assertThat(content.size()).isEqualTo(2);  //content의 사이즈는 2이다.
-        assertThat(content).extracting("itemName").containsExactly("신발", "자켓");
+        assertThat(content).extracting("itemName").containsExactly("나이키 신발", "프라다 자켓");
         assertThat(content).extracting("imgUrl").containsExactly("shoes11.jpeg", "jacket22.jpeg");
+
+        /**
+         * 검색조건(ItemName) -> 나이키
+         */
+//        assertThat(content.size()).isEqualTo(1);
+//        assertThat(content.get(0).getItemName()).isEqualTo("나이키 신발");
 
         System.out.println(result.getTotalPages());  //전체 페이지 수
         System.out.println(result.getTotalElements());  //전체 데이터 수
